@@ -10,6 +10,6 @@ namespace DemoGraphQL.Application.Resolvers
     {
         public Task<Category> GetCategoryAsync(
           [Parent] Product product,
-          [Service] CategoryRepository categoryRepository) => categoryRepository.GetById(product.CategoryId);
+          [Service] ICategoryRepository categoryRepository) => categoryRepository.GetById(product.CategoryId);
     }
 }

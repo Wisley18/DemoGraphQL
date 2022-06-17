@@ -3,11 +3,18 @@ using MongoDB.Driver;
 
 namespace DemoGraphQL.Application.Data.Repositories
 {
-    public class CategoryRepository
-    {
-        private readonly CatalogContext catalogContext;
+    
 
-        public CategoryRepository(CatalogContext catalogContext)
+    public interface ICategoryRepository
+    {
+        Task<Category> GetById(string id);
+    }
+
+    public class CategoryRepository : ICategoryRepository
+    {
+        private readonly ICatalogContext catalogContext;
+
+        public CategoryRepository(ICatalogContext catalogContext)
         {
             this.catalogContext = catalogContext;
         }

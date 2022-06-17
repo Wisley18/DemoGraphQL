@@ -1,18 +1,19 @@
 ﻿using DemoGraphQL.Application.Data.Entities;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemoGraphQL.Application.Data.Repositories
 {
-    public class ProductRepository
+    public interface IProductRepository
     {
-        private readonly CatalogContext catalogContext;
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(string id);
+    }
 
-        public ProductRepository(CatalogContext catalogContext)
+    public class ProductRepository : IProductRepository
+    {
+        private readonly ICatalogContext catalogContext;
+
+        public ProductRepository(ICatalogContext catalogContext)
         {
             this.catalogContext = catalogContext ?? throw new ArgumentNullException(nameof(catalogContext));
         }

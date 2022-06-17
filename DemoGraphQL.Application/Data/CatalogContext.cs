@@ -1,23 +1,26 @@
 ﻿using DemoGraphQL.Application.Configurations;
 using DemoGraphQL.Application.Data.Entities;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace DemoGraphQL.Application.Data
 {
-    public class CatalogContext
+    public interface ICatalogContext
+    {
+        IMongoCollection<Category> Categories { get; }
+        IMongoCollection<Product> Products { get; }
+    }
+
+    public class CatalogContext : ICatalogContext
     {
         private const string ProductCollectionName = "Products";
         private const string CategoryCollectionName = "Categories";
 
-        public CatalogContext(MongoDbConfiguration mongoDbConfiguration)
+        public CatalogContext(IOptions<MongoDbConfiguration> dbOptions)
         {
-            var client = new MongoClient(mongoDbConfiguration.ConnectionString);
-            var database = client.GetDatabase(mongoDbConfiguration.Database);
+            var settings = dbOptions.Value;
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.Database);
 
             this.Categories = database.GetCollection<Category>(CategoryCollectionName);
             this.Products = database.GetCollection<Product>(ProductCollectionName);
@@ -28,4 +31,6 @@ namespace DemoGraphQL.Application.Data
         public IMongoCollection<Category> Categories { get; }
         public IMongoCollection<Product> Products { get; }
     }
+
+    
 }

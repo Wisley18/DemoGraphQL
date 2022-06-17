@@ -16,10 +16,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<MongoDbConfiguration>(builder.Configuration.GetSection("MongoDbConfiguration"));
 
-builder.Services.AddSingleton<CatalogContext>();
+builder.Services.AddSingleton<ICatalogContext, CatalogContext>();
 
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services
       .AddGraphQLServer()

@@ -6,10 +6,10 @@ namespace DemoGraphQL.Application.Queries
 {
     public class Query
     {
-        public Task<IEnumerable<Product>> GetProductsAsync([Service] ProductRepository productRepository) =>
+        public Task<IEnumerable<Product>> GetProductsAsync([Service] IProductRepository productRepository) =>
             productRepository.GetAllAsync();
 
-        public Task<Product> GetProductById(string id, [Service] ProductRepository productRepository) =>
+        public Task<Product> GetProductById(string id, [Service] IProductRepository productRepository) =>
             productRepository.GetByIdAsync(id);
 
         // Add any queries you want here..
